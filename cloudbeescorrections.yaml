@@ -1,0 +1,6 @@
+anchore:
+  url: http://localhost:8228
+  user: admin
+  password: foobar
+  http:
+    insecure: true

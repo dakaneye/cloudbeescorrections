@@ -17,29 +17,27 @@ package cmd
 
 import (
 	"fmt"
+	"github.com/dakaneye/cloudbeescorrections/cloudbeescorrections"
+	"github.com/dakaneye/cloudbeescorrections/internal/client"
+	"github.com/dakaneye/cloudbeescorrections/internal/config"
 	"github.com/spf13/cobra"
 	"os"
+	"strings"
 
-	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/viper"
 )
-
-var cfgFile string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
 	Use:   "cloudbeescorrections",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	//	Run: func(cmd *cobra.Command, args []string) { },
+	Short: "Loads a bunch of package corrections into Anchore",
+	Run: func(cmd *cobra.Command, args []string) {
+		cloudbeescorrections.AddCorrections(enterpriseAPIClient)
+	},
 }
+
+var appConfig *config.Application
+var enterpriseAPIClient *client.EnterpriseClient
 
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
@@ -51,41 +49,44 @@ func Execute() {
 }
 
 func init() {
-	cobra.OnInitialize(initConfig)
-
-	// Here you will define your flags and configuration settings.
-	// Cobra supports persistent flags, which, if defined here,
-	// will be global for your application.
-
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.cloudbeescorrections.yaml)")
-
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	cobra.OnInitialize(initConfig,
+		initClient)
 }
 
 // initConfig reads in config file and ENV variables if set.
 func initConfig() {
-	if cfgFile != "" {
-		// Use config file from the flag.
-		viper.SetConfigFile(cfgFile)
-	} else {
-		// Find home directory.
-		home, err := homedir.Dir()
-		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
+	cfg, err := config.LoadApplicationConfig(viper.GetViper())
+	if err != nil {
+		if _, printErr := fmt.Fprintln(os.Stderr, fmt.Errorf("unable to load application config: %w", err)); printErr != nil {
+			panic(err)
 		}
-
-		// Search config in home directory with name ".cloudbeescorrections" (without extension).
-		viper.AddConfigPath(home)
-		viper.SetConfigName(".cloudbeescorrections")
+		os.Exit(1)
 	}
+	appConfig = cfg
+	fmt.Println(appConfig.String())
+}
 
-	viper.AutomaticEnv() // read in environment variables that match
+func initClient() {
+	var scheme string
+	var hostname = appConfig.Anchore.URL
+	urlFields := strings.Split(hostname, "://")
 
-	// If a config file is found, read it in.
-	if err := viper.ReadInConfig(); err == nil {
-		fmt.Println("Using config file:", viper.ConfigFileUsed())
+	if len(urlFields) > 1 {
+		scheme = urlFields[0]
+		hostname = urlFields[1]
 	}
+	enterpriseClient, err := client.NewEnterpriseClient(client.Configuration{
+		Hostname:       hostname,
+		Username:       appConfig.Anchore.User,
+		Password:       appConfig.Anchore.Password,
+		Scheme:         scheme,
+		TimeoutSeconds: appConfig.Anchore.HTTP.TimeoutSeconds,
+		Insecure:       appConfig.Anchore.HTTP.Insecure,
+		AnchoreAccount: appConfig.Anchore.Account,
+	})
+	if err != nil {
+		fmt.Printf("failed to initialize enterprise client: %s\n", err.Error())
+		os.Exit(1)
+	}
+	enterpriseAPIClient = enterpriseClient
 }
