@@ -1,4 +1,4 @@
-module github.com/dakaneye/cloudbeescorrections
+module github.com/dakaneye/fpmanagement
 
 go 1.16
 

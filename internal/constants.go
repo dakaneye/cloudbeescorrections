@@ -1,4 +1,4 @@
 package internal
 
 // ApplicationName name of application
-const ApplicationName = "cloudbeescorrections"
+const ApplicationName = "fpmanagement"

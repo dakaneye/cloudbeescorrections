@@ -1,5 +1,5 @@
 /*
-Copyright © 2021 NAME HERE <EMAIL ADDRESS>
+Copyright © 2021 Anchore <engineering@anchore.com>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -17,9 +17,9 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/dakaneye/cloudbeescorrections/cloudbeescorrections"
-	"github.com/dakaneye/cloudbeescorrections/internal/client"
-	"github.com/dakaneye/cloudbeescorrections/internal/config"
+	"github.com/dakaneye/fpmanagement/fpmanagement"
+	"github.com/dakaneye/fpmanagement/internal/client"
+	"github.com/dakaneye/fpmanagement/internal/config"
 	"github.com/spf13/cobra"
 	"os"
 	"strings"
@@ -29,10 +29,10 @@ import (
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "cloudbeescorrections",
+	Use:   "fpmanagement",
 	Short: "Loads a bunch of package corrections into Anchore",
 	Run: func(cmd *cobra.Command, args []string) {
-		cloudbeescorrections.AddCorrections(enterpriseAPIClient)
+		fpmanagement.AddCorrections(enterpriseAPIClient)
 	},
 }
 

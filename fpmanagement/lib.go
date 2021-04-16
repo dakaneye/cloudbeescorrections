@@ -1,11 +1,11 @@
-package cloudbeescorrections
+package fpmanagement
 
 import (
 	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/anchore/enterprise-client-go/pkg/external"
-	"github.com/dakaneye/cloudbeescorrections/internal/client"
+	"github.com/dakaneye/fpmanagement/internal/client"
 	"io/ioutil"
 )
 

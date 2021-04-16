@@ -8,7 +8,7 @@ import (
 	"gopkg.in/yaml.v2"
 
 	"github.com/adrg/xdg"
-	"github.com/dakaneye/cloudbeescorrections/internal"
+	"github.com/dakaneye/fpmanagement/internal"
 	"github.com/mitchellh/go-homedir"
 	"github.com/spf13/viper"
 )
@@ -17,7 +17,6 @@ const redacted = "******"
 
 // Application is the main anchorectl application configuration.
 type Application struct {
-	Quiet             bool             `yaml:"quiet" mapstructure:"quiet"`                         // Quiet designates whether or not to suppress logging (i.e. panic logs only)
 	Anchore           Anchore          `yaml:"anchore" mapstructure:"anchore"`                     // Anchore provides connection details for requests to Anchore
 }
 
