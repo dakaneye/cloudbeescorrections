@@ -236,5 +236,113 @@
         "field_value": "cpe:2.3:a:*:jetty:{maven-version}:*:*:*:*:*:*:*"
       }
     ]
+  },
+  {
+    "type": "package",
+    "match": {
+      "type": "java",
+      "field_matches": [
+        {
+          "field_name": "package",
+          "field_value": "json-schema-core"
+        }
+      ]
+    },
+    "replace": [
+      {
+        "field_name": "cpes",
+        "field_value": "cpe:2.3:a:*:json-schema-core:{maven-version}:*:*:*:*:java:*:*"
+      }
+    ]
+  },
+  {
+    "type": "package",
+    "match": {
+      "type": "java",
+      "field_matches": [
+        {
+          "field_name": "package",
+          "field_value": "json-schema-validator"
+        }
+      ]
+    },
+    "replace": [
+      {
+        "field_name": "cpes",
+        "field_value": "cpe:2.3:a:*:json-schema-validator:{maven-version}:*:*:*:*:java:*:*"
+      }
+    ]
+  },
+  {
+    "type": "package",
+    "match": {
+      "type": "java",
+      "field_matches": [
+        {
+          "field_name": "package",
+          "field_value": "jdk-tool"
+        }
+      ]
+    },
+    "replace": [
+      {
+        "field_name": "cpes",
+        "field_value": "cpe:2.3:a:*:jdk-tool:1.4:*:*:*:*:*:*:*"
+      }
+    ]
+  },
+  {
+    "type": "package",
+    "match": {
+      "type": "java",
+      "field_matches": [
+        {
+          "field_name": "package",
+          "field_value": "maven-interceptor"
+        }
+      ]
+    },
+    "replace": [
+      {
+        "field_name": "cpes",
+        "field_value": "cpe:2.3:a:*:maven-interceptor:{maven-version}:*:*:*:*:*:*:*"
+      }
+    ]
+  },
+  {
+    "type": "package",
+    "match": {
+      "type": "java",
+      "field_matches": [
+        {
+          "field_name": "package",
+          "field_value": "maven-resolver-spi"
+        }
+      ]
+    },
+    "replace": [
+      {
+        "field_name": "cpes",
+        "field_value": "cpe:2.3:a:*:maven-resolver-spi:{maven-version}:*:*:*:*:*:*:*"
+      }
+    ]
+  },
+  {
+    "type": "package",
+    "match": {
+      "type": "java",
+      "field_matches": [
+        {
+          "field_name": "package",
+          "field_value": "maven-resolver-api"
+        }
+      ]
+    },
+    "replace": [
+      {
+        "field_name": "cpes",
+        "field_value": "cpe:2.3:a:*:maven-resolver-api:{maven-version}:*:*:*:*:*:*:*"
+      }
+    ]
   }
 ]
